@@ -18,10 +18,10 @@ public class GreetingsController : ControllerBase
         _config = config;
     }
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] string? name)
+    public async Task<IActionResult> Get([FromQuery] string? visitor_name)
     {
         var client = _factory.CreateClient("client");
-        var visitor_name = name is null ? "client" : name;
+        var name = string.IsNullOrEmpty(visitor_name) ? "client" : visitor_name;
         var temperature = 0.0;
 
         //Configuration settings
@@ -62,7 +62,7 @@ public class GreetingsController : ControllerBase
         {
             client_ip = clientIp,
             location = city,
-            greeting = $"Hello, {visitor_name}! The temperature is {temperature} degrees Celsius in {city}"
+            greeting = $"Hello, {name}! The temperature is {temperature} degrees Celsius in {city}"
         };
 
         return Ok(response);
